@@ -1,6 +1,17 @@
 var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+
+
+console.log("args: "+process.argv);
+let arguments = process.argv.slice(2);
+if (!arguments.length) {
+    console.log("expected wait");
+    process.exit(1);
+}
+let wait = arguments[0];
+
 var LED = new Gpio(4, 'out'); //use GPIO pin 4, and specify that it is output
 var blinkInterval = setInterval(blinkLED, 250); //run the blinkLED function every 250ms
+
 
 function blinkLED() { //function to start blinking
   if (LED.readSync() === 0) { //check the pin state, if the state is 0 (or off)

@@ -1,8 +1,35 @@
-var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+let Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+let sleep = require('sleep');
 
+/*class Gpio {
+  constructor(port,direction){}
+  writeSync(p) {
+    process.stdout.write(p.toString());
+  }
+  unexport() {
 
-
+  }
+}*/
+let LED = new Gpio(4, 'out'); //use GPIO pin 4, and specify that it is output
+let sigPause =150; 
+let long =500;
+let short =100;
+let wordPause =600; 
 let arguments = process.argv.slice(2);
+
+function longSignal() { 
+  LED.writeSync(1);
+  sleep.msleep(long);
+  LED.writeSync(0); 
+  sleep.msleep(sigPause);
+}
+function shortSignal() { 
+  LED.writeSync(1);
+  sleep.msleep(short);
+  LED.writeSync(0); 
+  sleep.msleep(sigPause);
+}
+
 if (!arguments.length) {
     console.log("expected message");
     process.exit(1);
@@ -11,40 +38,29 @@ var morseCode = [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", 
 
 let message = arguments[0];
 message = message.toLowerCase().replace(/[^a-z]/g, "");
+
+console.log("--------------");
 for (let i=0; i<message.length; i++) {
   let c = message.charCodeAt(i)-97;  
-  console.log(c);
+  //console.log(c);
   let mCode = morseCode[c];
-  console.log(mCode);
-}
-
-console.log(": "+message);
-function short() {
-  process.stdout.write(".");
-}
-function long() {
-  process.stdout.write("-");
-}
-short();short();short();long();long();long();short();short();short();
-
-/*
-var LED = new Gpio(4, 'out'); //use GPIO pin 4, and specify that it is output
-var blinkInterval = setInterval(blinkLED, 250); //run the blinkLED function every 250ms
-
-
-function blinkLED() { //function to start blinking
-  if (LED.readSync() === 0) { //check the pin state, if the state is 0 (or off)
-    LED.writeSync(1); //set pin state to 1 (turn LED on)
-  } else {
-    LED.writeSync(0); //set pin state to 0 (turn LED off)
+  process.stdout.write(mCode);
+  for (let s=0; s<mCode.length; s++){
+    let signal=mCode[s];
+    if (signal=="-"){
+      longSignal();
+    } else{
+      shortSignal();
+    }
   }
+  console.log("");
 }
 
-function endBlink() { //function to stop blinking
-  clearInterval(blinkInterval); // Stop blink intervals
-  LED.writeSync(0); // Turn LED off
-  LED.unexport(); // Unexport GPIO to free resources
-}
+console.log("--------------");
+LED.writeSync(0); // Turn LED off
+LED.unexport(); // Unexport GPIO to free resources
 
-setTimeout(endBlink, 5000); //stop blinking after 5 seconds
-*/
+console.log("");
+
+process.exit(0);
+

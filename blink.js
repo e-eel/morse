@@ -11,23 +11,25 @@ let sleep = require('sleep');
   }
 }*/
 let LED = new Gpio(4, 'out'); //use GPIO pin 4, and specify that it is output
-let sigPause =150; 
-let long =500;
-let short =100;
-let wordPause =600; 
+let dotLength =100
+let betweenElements =1*dotLength; 
+let dash =3*dotLength;
+let dot =1*dotLength;
+let betweenCharacters =3*dotLength; 
+let betweenWords =7*dotLength
 let arguments = process.argv.slice(2);
 
 function longSignal() { 
   LED.writeSync(1);
-  sleep.msleep(long);
+  sleep.msleep(dash);
   LED.writeSync(0); 
-  sleep.msleep(sigPause);
+  sleep.msleep(betweenElements);
 }
 function shortSignal() { 
   LED.writeSync(1);
-  sleep.msleep(short);
+  sleep.msleep(dot);
   LED.writeSync(0); 
-  sleep.msleep(sigPause);
+  sleep.msleep(betweenElements);
 }
 
 if (!arguments.length) {
@@ -37,25 +39,32 @@ if (!arguments.length) {
 var morseCode = [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-",     ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."];
 
 let message = arguments[0];
-message = message.toLowerCase().replace(/[^a-z]/g, "");
+message = message.toLowerCase().replace(/[^a-z ]/g, "");
 
 console.log("--------------");
 for (let i=0; i<message.length; i++) {
-  let c = message.charCodeAt(i)-97;  
-  //console.log(c);
-  let mCode = morseCode[c];
-  process.stdout.write(mCode);
-  for (let s=0; s<mCode.length; s++){
-    let signal=mCode[s];
-    if (signal=="-"){
-      longSignal();
-    } else{
-      shortSignal();
-    }
-  }
-  console.log("");
-}
+  let cCode= message.charCodeAt(i);
+  if (cCode== 32) { 
+    console.log("sleep");
+    sleep.msleep(betweenWords);
+    
+  } else {
 
+    let c = cCode -97;  
+    //console.log(c);
+    let mCode = morseCode[c];
+    process.stdout.write(mCode);
+    for (let s=0; s<mCode.length; s++){
+      let signal=mCode[s];
+      if (signal=="-"){
+        longSignal();
+      } else{
+        shortSignal();
+      }
+    }
+    console.log("");
+  }
+}
 console.log("--------------");
 LED.writeSync(0); // Turn LED off
 LED.unexport(); // Unexport GPIO to free resources

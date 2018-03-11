@@ -1,5 +1,4 @@
 
-let onOff=[+100,100,+100,100,+100,100,+300,100,+300,100,+300,100,+100,100,+100,100,+100,700];
 let morseAlpha = new Map();
 morseAlpha.set("...","s");
 morseAlpha.set("---","o");
@@ -14,10 +13,11 @@ function newSignal(length) {
    if (chr!=undefined) {
        console.log(chr);
        morseStream= "";
+       return chr;
    } 
 
+   return "";
+}
 
-}
-for(i=0;i<onOff.length;i+=2){
-    newSignal(onOff[i]);
-}
+
+module.exports = newSignal;

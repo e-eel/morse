@@ -1,7 +1,7 @@
-//let Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+let Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
 let sleep = require('sleep');
 
-class Gpio {
+/*class Gpio {
   constructor(port,direction){}
   writeSync(p) {
     process.stdout.write(p.toString());
@@ -10,6 +10,7 @@ class Gpio {
 
   }
 }
+*/
 let LED = new Gpio(4, 'out'); //use GPIO pin 4, and specify that it is output
 let dotLength =100
 let betweenElements =1*dotLength; 
@@ -41,31 +42,35 @@ var morseCode = [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", 
 let message = arguments[0];
 message = message.toLowerCase().replace(/[^a-z ]/g, "");
 
-console.log("--------------");
-for (let i=0; i<message.length; i++) {
-  let cCode= message.charCodeAt(i);
-  if (cCode== 32) { 
-    console.log("sleep");
-    sleep.msleep(betweenWords);
-    
-  } else {
+while (true) {
+  //console.log("--------------");
+  for (let i=0; i<message.length; i++) {
+    let cCode= message.charCodeAt(i);
+    if (cCode== 32) { 
+      console.log(" ");
+      sleep.msleep(betweenWords);
+      
+    } else {
 
-    let c = cCode -97;  
-    //console.log(c);
-    let mCode = morseCode[c];
-    process.stdout.write(mCode);
-    for (let s=0; s<mCode.length; s++){
-      let signal=mCode[s];
-      if (signal=="-"){
-        longSignal();
-      } else{
-        shortSignal();
+      let c = cCode -97;  
+      //console.log(c);
+      let mCode = morseCode[c];
+      process.stdout.write(mCode);
+      for (let s=0; s<mCode.length; s++){
+        let signal=mCode[s];
+        if (signal=="-"){
+          longSignal();
+        } else{
+          shortSignal();
+        }
       }
+      console.log(" ");
     }
-    console.log("");
   }
+  sleep.msleep(betweenWords);
 }
-console.log("--------------");
+
+//console.log("--------------");
 LED.writeSync(0); // Turn LED off
 LED.unexport(); // Unexport GPIO to free resources
 

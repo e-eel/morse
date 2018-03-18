@@ -1,7 +1,7 @@
-let Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+//let Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
 let sleep = require('sleep');
 
-/*class Gpio {
+class Gpio {
   constructor(port,direction){}
   writeSync(p) {
     process.stdout.write(p.toString());
@@ -9,7 +9,7 @@ let sleep = require('sleep');
   unexport() {
 
   }
-}*/
+}
 let LED = new Gpio(4, 'out'); //use GPIO pin 4, and specify that it is output
 let dotLength =100
 let betweenElements =1*dotLength; 

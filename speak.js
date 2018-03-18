@@ -26,6 +26,36 @@ class Speak {
     this.LED.writeSync(0); 
     sleep.msleep(this.betweenElements);
   }
+
+  text(message) {
+    message = message.toLowerCase();
+    for (let i=0; i<message.length; i++) {
+      let cCode= message.charCodeAt(i);
+      if (cCode== 32) { 
+        console.log(" ");
+        sleep.msleep(this.betweenWords);
+        
+      } else {
+  
+        let c = cCode -97;  
+        //console.log(c);
+        let mCode = this.morseCode[c];
+        process.stdout.write(mCode);
+        for (let s=0; s<mCode.length; s++){
+          let signal=mCode[s];
+          if (signal=="-"){
+            this.longSignal();
+          } else{
+            this.shortSignal();
+          }
+        }
+        sleep.msleep(this.betweenCharacters-this.betweenElements);
+        console.log(" ");
+      }
+    }
+    // sleep.msleep(this.betweenWords);
+  
+  }
 }
 
 exports.Speak = Speak;

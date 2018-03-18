@@ -19,6 +19,7 @@ pushButton.watch(function (err, value) { //Watch for hardware interrupts on push
         lengthOff = now - lastPush;
         console.log(lengthOff + " " + lengthOn);
         result = newSignal(lengthOff,lengthOn);
+        console.log(result);
     } else {
         lengthOn = now - lastPush;
     }

@@ -50,7 +50,7 @@ describe("listen morse", function() {
     }
     expect(result).toBe(" nils");
   });
-  
+/*  
   it("should be able to listen to real nils with real timings", function() {
     let onOff=[       //17478,0,
               17478,+300,106,+101,300,   +101,101,+100,300,     +101,100,+300,101,+100,101,+100,301,    +100,100,+100,802,100,
@@ -61,5 +61,6 @@ describe("listen morse", function() {
     }
     expect(result).toBe(" nils");
   });
+  */
   
 });

@@ -1,7 +1,7 @@
 
 let morseAlpha = new Map();
 morseAlpha.set("-.","n");
-//morseAlpha.set("..","i");
+morseAlpha.set("..","i");
 morseAlpha.set(".-..","l");
 morseAlpha.set("...","s");
 morseAlpha.set("---","o");
@@ -19,7 +19,7 @@ function newSignal( lengthOff, lengthOn ) {
     if (  lengthOff >= 300*0.9 ) {
         let chr= morseAlpha.get(morseStream);
         if (chr!=undefined) {
-            console.log(chr);
+            //console.log(chr);
             morseStream= "";
             recognizedCharacters = chr+recognizedCharacters;
         } 
@@ -31,8 +31,8 @@ function newSignal( lengthOff, lengthOn ) {
         morseStream+="-";
     }
    
-   
-   return recognizedCharacters;
+    process.stdout.write(recognizedCharacters);
+    return recognizedCharacters;
 }
 
 

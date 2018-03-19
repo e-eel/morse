@@ -1,4 +1,6 @@
-// usage: e.g. node speak-cli.js -c -l -m "s o s"
+// usage: e.g. 
+// node speak-cli.js -c -l -m "s o s"
+// node speak-cli.js -c -m "nils sos " -l | node listen-cli.js -c
 
 let sleep = require('sleep');
 let Speak = require('./speak').Speak;
@@ -34,8 +36,6 @@ do {
   speak.text(message);
 } while (program.loop);
 
-LED.writeSync(0); // Turn LED off
-LED.unexport(); // Unexport GPIO to free resources
-
+LED.unexport(); 
 process.exit(0);
 

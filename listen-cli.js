@@ -35,9 +35,9 @@ if (program.console) {
   pushButton = new Gpio(program.gpio, 'in', 'both');
 }
 
-let lastPush= new Date().getTime();
 let lengthOff=1500;
-let lengthOn=0;
+let lengthOn=100;
+let lastPush= new Date().getTime()-lengthOff;
 
 pushButton.watch(function (err, value) { //Watch for hardware interrupts on pushButton GPIO, specify callback function
     if (err) { //if an error
@@ -46,14 +46,16 @@ pushButton.watch(function (err, value) { //Watch for hardware interrupts on push
     }
     //LED.writeSync(value); //turn LED on or off depending on the button state (0 or 1)
     let now= new Date().getTime();
-    console.log(value);
-    if (value) {
-        lengthOff = now - lastPush;
-        console.log(lengthOff + " " + lengthOn);
-        result = newSignal(lengthOff,lengthOn);
-        console.log(result);
-    } else {
+    // console.log(value);
+    if (value == 0) {
         lengthOn = now - lastPush;
+
+        // console.log("newSignal "+lengthOff + " " + lengthOn);
+        result = newSignal(lengthOff,lengthOn);
+        process.stdout.write(result);
+    } else {
+        lengthOff = now - lastPush;
+
     }
     lastPush = now;
   });

@@ -25,14 +25,16 @@ function newSignal( lengthOff, lengthOn ) {
         } 
     }
 
-    if ( Math.abs(lengthOn-100) < 10 ) {
+    if ( lengthOn < 90 ) {
+        // ignore
+    } else if ( lengthOn < 110 ) {
         morseStream+=".";
     } else {
         morseStream+="-";
     }
    
-    process.stdout.write(morseStream);
-    // process.stdout.write(recognizedCharacters);
+    //process.stdout.write(morseStream + " " + lengthOff + " " + lengthOn);
+    //process.stdout.write(recognizedCharacters);
     return recognizedCharacters;
 }
 

@@ -1,3 +1,5 @@
+// usage: e.g. node speak-cli.js -c -l -m "s o s"
+
 let sleep = require('sleep');
 let Speak = require('./speak').Speak;
 var program = require('commander');
@@ -14,7 +16,7 @@ if (program.console) {
   class Gpio {
     constructor(port,direction) {}
     writeSync(p) {
-      process.stdout.write(p.toString());
+      process.stdout.write(p.toString()+"\n");
     }
     unexport() {}
   }

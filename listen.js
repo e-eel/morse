@@ -31,7 +31,8 @@ function newSignal( lengthOff, lengthOn ) {
         morseStream+="-";
     }
    
-    process.stdout.write(recognizedCharacters);
+    process.stdout.write(morseStream);
+    // process.stdout.write(recognizedCharacters);
     return recognizedCharacters;
 }
 

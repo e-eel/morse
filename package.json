@@ -4,6 +4,7 @@
   "description": "raspberry pi morse hello world",
   "main": "blink.js",
   "dependencies": {
+    "commander": "^2.15.0",
     "onoff": "^1.1.9",
     "redux": "^3.7.2",
     "rxjs": "^5.5.6",
